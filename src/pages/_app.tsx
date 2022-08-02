@@ -1,5 +1,6 @@
 import type { AppProps } from "next/app";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { NextUIProvider } from '@nextui-org/react';
 
 const client = new ApolloClient({
   uri: "/api/graphql",
@@ -8,9 +9,11 @@ const client = new ApolloClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ApolloProvider client={client}>
-      <Component {...pageProps} />
-    </ApolloProvider>
+    <NextUIProvider>
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
+    </NextUIProvider>
   );
 }
 

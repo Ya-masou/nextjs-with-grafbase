@@ -1,0 +1,243 @@
+type Mutation {
+  # Create a Todo
+  todoCreate(input: TodoCreateInput!): TodoCreatePayload
+
+  # Delete a Todo by ID
+  todoDelete(id: ID!): TodoDeletePayload
+
+  # Create a TodoList
+  todoListCreate(input: TodoListCreateInput!): TodoListCreatePayload
+
+  # Delete a TodoList by ID
+  todoListDelete(id: ID!): TodoListDeletePayload
+
+  # Update a TodoList
+  todoListUpdate(id: ID!, input: TodoListUpdateInput!): TodoListUpdatePayload
+
+  # Update a Todo
+  todoUpdate(id: ID!, input: TodoUpdateInput!): TodoUpdatePayload
+
+  # Create a User
+  userCreate(input: UserCreateInput!): UserCreatePayload
+
+  # Delete a User by ID
+  userDelete(id: ID!): UserDeletePayload
+
+  # Update a User
+  userUpdate(id: ID!, input: UserUpdateInput!): UserUpdatePayload
+}
+
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
+type Query {
+  # Get a Todo by ID
+  todo(
+    # Todo id
+    id: ID!
+  ): Todo
+
+  # Paginated query to fetch the whole list of `Todo`.
+  todoCollection(
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): TodoConnection
+
+  # Get a TodoList by ID
+  todoList(
+    # TodoList id
+    id: ID!
+  ): TodoList
+
+  # Paginated query to fetch the whole list of `TodoList`.
+  todoListCollection(
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): TodoListConnection
+
+  # Get a User by ID
+  user(
+    # User id
+    id: ID!
+  ): User
+
+  # Paginated query to fetch the whole list of `User`.
+  userCollection(
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): UserConnection
+}
+
+type Todo {
+  complete: Boolean!
+  id: ID!
+  title: String!
+}
+
+type TodoConnection {
+  edges: [TodoEdge]
+
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+}
+
+# Input to create a new Todo
+input TodoCreateInput {
+  complete: Boolean!
+  title: String!
+}
+
+type TodoCreatePayload {
+  todo: Todo
+}
+
+type TodoDeletePayload {
+  deletedId: ID!
+}
+
+type TodoEdge {
+  cursor: String!
+  node: Todo!
+}
+
+type TodoList {
+  id: ID!
+  title: String!
+  todos: [Todo]
+}
+
+type TodoListConnection {
+  edges: [TodoListEdge]
+
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+}
+
+# Input to create a new TodoList
+input TodoListCreateInput {
+  title: String!
+  todos: [TodoListTodoRelateTodoListTodoCreateRelationInput]
+}
+
+type TodoListCreatePayload {
+  todoList: TodoList
+}
+
+type TodoListDeletePayload {
+  deletedId: ID!
+}
+
+type TodoListEdge {
+  cursor: String!
+  node: TodoList!
+}
+
+# Input to create a new TodoListTodoRelateTodoListTodo
+input TodoListTodoRelateTodoListTodoCreateInput {
+  complete: Boolean!
+  title: String!
+}
+
+# Input to create a new TodoListTodoRelateTodoListTodo relation
+input TodoListTodoRelateTodoListTodoCreateRelationInput {
+  create: TodoListTodoRelateTodoListTodoCreateInput
+  link: ID
+}
+
+# Input to update a TodoListTodoRelateTodoListTodo relation
+input TodoListTodoRelateTodoListTodoUpdateRelationInput {
+  create: TodoListTodoRelateTodoListTodoCreateInput
+  link: ID
+  unlink: ID
+}
+
+# Input to create a new TodoList
+input TodoListUpdateInput {
+  title: String
+  todos: [TodoListTodoRelateTodoListTodoUpdateRelationInput]
+}
+
+type TodoListUpdatePayload {
+  todoList: TodoList
+}
+
+# Input to create a new Todo
+input TodoUpdateInput {
+  complete: Boolean
+  title: String
+}
+
+type TodoUpdatePayload {
+  todo: Todo
+}
+
+type User {
+  id: ID!
+  name: String!
+  todoLists: [TodoList]
+}
+
+type UserConnection {
+  edges: [UserEdge]
+
+  # Information to aid in pagination
+  pageInfo: PageInfo!
+}
+
+# Input to create a new User
+input UserCreateInput {
+  name: String!
+  todoLists: [UserTodoListRelateUserTodoListCreateRelationInput]
+}
+
+type UserCreatePayload {
+  user: User
+}
+
+type UserDeletePayload {
+  deletedId: ID!
+}
+
+type UserEdge {
+  cursor: String!
+  node: User!
+}
+
+# Input to create a new UserTodoListRelateUserTodoList
+input UserTodoListRelateUserTodoListCreateInput {
+  title: String!
+  todos: [TodoListTodoRelateTodoListTodoCreateInput]
+}
+
+# Input to create a new UserTodoListRelateUserTodoList relation
+input UserTodoListRelateUserTodoListCreateRelationInput {
+  create: UserTodoListRelateUserTodoListCreateInput
+  link: ID
+}
+
+# Input to update a UserTodoListRelateUserTodoList relation
+input UserTodoListRelateUserTodoListUpdateRelationInput {
+  create: UserTodoListRelateUserTodoListCreateInput
+  link: ID
+  unlink: ID
+}
+
+# Input to create a new User
+input UserUpdateInput {
+  name: String
+  todoLists: [UserTodoListRelateUserTodoListUpdateRelationInput]
+}
+
+type UserUpdatePayload {
+  user: User
+}
