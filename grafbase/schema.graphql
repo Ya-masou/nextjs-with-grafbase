@@ -9,3 +9,14 @@ type Todo @model {
   title: String!
   complete: Boolean!
 }
+
+type User @model {
+  id: ID!
+  name: String!
+  todoLists: [TodoList]
+}
+
+type Item @model {
+  id: ID!
+  title: String!
+}
